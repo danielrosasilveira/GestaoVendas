@@ -1,0 +1,3 @@
+﻿Ajustar Textos e links de menu
+Manual do smarterasp
+Criar o Banco de Dados
