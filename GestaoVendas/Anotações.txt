@@ -1,6 +1,0 @@
-﻿Criar o Banco de Dados
-Nome do Banco: *first
-Senha do Banco: firstcursos2020
-
-Manual do smarterasp
-
