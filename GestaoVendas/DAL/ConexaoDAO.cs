@@ -2,7 +2,7 @@
 
 namespace GestaoVendas.DAL
 {
-    public class Conexao
+    public class ConexaoDAO
     {
         #region Parâmetros de conexão
         private static string Server = "mysql5015.site4now.net";

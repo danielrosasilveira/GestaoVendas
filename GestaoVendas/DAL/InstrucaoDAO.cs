@@ -4,7 +4,7 @@ using System.Data;
 
 namespace GestaoVendas.DAL
 {
-    public class GeralDAO
+    public class InstrucaoDAO
     {
         #region retornoDataTable
         //Espera um parâmetro do tipo Command
@@ -14,8 +14,8 @@ namespace GestaoVendas.DAL
             try
             {
                 DataTable data = new DataTable();
-                cmd.Connection = Conexao.Connection;
-                Conexao.Conectar();
+                cmd.Connection = ConexaoDAO.Connection;
+                ConexaoDAO.Conectar();
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(data);
                 return data;
@@ -27,7 +27,7 @@ namespace GestaoVendas.DAL
             }
             finally
             {
-                Conexao.Desconectar();
+                ConexaoDAO.Desconectar();
             }
         }
         #endregion
@@ -39,8 +39,8 @@ namespace GestaoVendas.DAL
         {
             try
             {
-                cmd.Connection = Conexao.Connection;
-                Conexao.Conectar();
+                cmd.Connection = ConexaoDAO.Connection;
+                ConexaoDAO.Conectar();
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace GestaoVendas.DAL
             }
             finally
             {
-                Conexao.Desconectar();
+                ConexaoDAO.Desconectar();
             }
         }
         #endregion

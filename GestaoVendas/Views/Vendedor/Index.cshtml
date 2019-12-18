@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Vendedores</h1>
+    <p class="mb-4">Listagem de Vendedores.</p>
+
+    <p>
+        <a class="btn btn-primary btn-icon-split btn-sm" asp-action="Create">
+            <span class="icon text-white-50">
+                <i class="fas fa-plus-circle"></i> 
+            </span>
+            <span class="text">Adicionar</span>
+        </a>
+    </p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Vendedores</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="sisDataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Nivel</th>
+                            <th>Status</th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ if (ViewBag.Lista != null)
+                            {
+                                foreach (var item in (List<VendedorModel>)ViewBag.Lista)
+                                {
+                                    <tr>
+                                        <td>@item.Nome</td>
+                                        <td>@item.Email</td>
+                                        <td>@item.Nivel</td>
+                                        <td>@item.Status</td>
+                                        <td>
+                                            <button type="button" onclick="Editar(@item.Idvendedor)" 
+                                                    class="btn btn-primary btn-circle btn-sm">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </button>
+                                            <button type="button" onclick="Excluir(@item.Idvendedor)" 
+                                                    class="btn btn-danger btn-circle btn-sm">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+@section scripts
+{
+    <script>
+        $('#sisDataTable').dataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Portuguese-Brasil.json"
+            }
+        });
+
+        function Editar(id) {
+            window.location.href = "../../Vendedor/Edit/" + id;
+        };
+
+        function Excluir(id) {
+            window.location.href = "../../Vendedor/Delete/" + id;
+        };
+    </script>
+}
+

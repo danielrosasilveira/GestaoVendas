@@ -1,0 +1,89 @@
+﻿@model VendedorModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Inserir Vendedor</h1>
+
+<form asp-controller="Vendedor" asp-action="Create">
+    <hr />
+    <div class="row">
+        <div class="form-group col-md-8">
+            <label>Nome *</label>
+            <input type="text" class="form-control" asp-for="Nome">
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-2">
+            <label>Sexo *</label>
+            <select asp-for="Sexo" class="form-control">
+                <option value=""></option>
+                <option value="Feminino">Feminino</option>
+                <option value="Masculino">Masculino</option>
+            </select>
+            <span asp-validation-for="Sexo" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-2">
+            <label>Status *</label>
+            <select asp-for="Status" class="form-control">
+                <option value=""></option>
+                <option value="Ativo">Ativo</option>
+                <option value="Inativo">Inativo</option>
+            </select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="form-group col-md-8">
+            <label>E-mail *</label>
+            <input type="text" class="form-control" asp-for="Email">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label>Nível *</label>
+            <select asp-for="Nivel" class="form-control">
+                <option value=""></option>
+                <option value="Operador">Operador</option>
+                <option value="Administrador">Administrador</option>
+            </select>
+            <span asp-validation-for="Nivel" class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label>Senha *</label>
+            <input asp-for="Senha" type="password" class="form-control">
+            <span asp-validation-for="Senha" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label>Confirmar Senha *</label>
+            <input asp-for="ConfirmSenha" type="password" class="form-control">
+            <span asp-validation-for="ConfirmSenha" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div id="actions" class="row">
+        <div class="col-md-12">
+
+            <button type="submit" class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="far fa-save"></i>
+                </span>
+                <span class="text">Salvar</span>
+            </button>
+
+            <a class="btn btn-light" asp-action="Index">Voltar</a>
+        </div>
+    </div>
+
+</form>
+
+
