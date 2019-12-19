@@ -20,6 +20,19 @@
                             <div class="p-5">
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Sistema de Gestão</h1>
+                                    @{
+                                        try
+                                        {
+                                            var erro = TempData["error"].ToString();
+                                            <p class="text-xs text-danger">@erro</p>
+
+                                        }
+                                        catch
+                                        {
+
+                                        }
+
+                                    }
                                 </div>
                                 <form class="user" asp-controller="Login" asp-action="Verificar">
                                     <div class="form-group">
