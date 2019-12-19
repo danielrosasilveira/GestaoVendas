@@ -29,7 +29,7 @@ namespace GestaoVendas.Controllers
         public IActionResult Create(VendedorModel vendedor)
         {
             if (ModelState.IsValid)
-            {
+            {                             
                 //Encriptando a senha
                 vendedor.Senha = BCrypt.Net.BCrypt.HashPassword(vendedor.Senha);
 

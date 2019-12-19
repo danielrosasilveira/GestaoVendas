@@ -62,7 +62,7 @@ namespace GestaoVendas.DAL
             objDAL.executarSQL(cmd);
         }
         #endregion
-
+ 
         #region ConsultarID
         public VendedorModel ConsultarID(int id)
         {
