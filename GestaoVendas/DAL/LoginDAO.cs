@@ -14,13 +14,13 @@ namespace GestaoVendas.DAL
         public List<VendedorModel> validarLogin(LoginModel login)
         {
 
-            MySqlCommand cmd = new MySqlCommand();            
+            MySqlCommand cmd = new MySqlCommand();
 
-                cmd.CommandText = @"select *
+            cmd.CommandText = @"select *
                             from vendedor
                             where Email=@email";
 
-            cmd.Parameters.AddWithValue("email", login.Email);            
+            cmd.Parameters.AddWithValue("email", login.Email);
 
             InstrucaoDAO objDAL = new InstrucaoDAO();
             DataTable dt = objDAL.retornoDataTable(cmd);
@@ -47,6 +47,24 @@ namespace GestaoVendas.DAL
                 }
             }
             return lista;
+        }
+        #endregion
+
+        #region alterarSenha
+        public void alterarSenha(SenhaModel sen)
+        {
+            MySqlCommand cmd = new MySqlCommand();
+
+            cmd.CommandText = @"update vendedor
+                                set senha = @senha
+                                where idvendedor = @id";
+
+
+            cmd.Parameters.AddWithValue("id", sen.Id);
+            cmd.Parameters.AddWithValue("senha", sen.NovaSenha);
+
+            InstrucaoDAO objDAL = new InstrucaoDAO();
+            objDAL.executarSQL(cmd);
         }
         #endregion
     }

@@ -61,6 +61,7 @@ namespace GestaoVendas.Controllers
         #endregion
 
         #region Perfil - GET
+        [HttpGet]
         public IActionResult Perfil()
         {
             int id = Convert.ToInt32(httpContext.HttpContext.Session.GetString("Idvendedor"));
@@ -103,5 +104,46 @@ namespace GestaoVendas.Controllers
         }
         #endregion
 
+        #region Senha - GET
+        [HttpGet]
+        public IActionResult Senha()
+        {
+            return View();
+        }
+        #endregion
+
+        #region Senha - POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Senha(SenhaModel senha)       
+        {
+            if (ModelState.IsValid)
+            {
+                LoginModel log = new LoginModel();
+                log.Email = httpContext.HttpContext.Session.GetString("Email");
+
+                LoginDAO obj = new LoginDAO();
+                List<VendedorModel> result = obj.validarLogin(log);
+
+                foreach (var item in result)
+                {
+                    if (BCrypt.Net.BCrypt.Verify(senha.SenhaAtual, item.Senha))
+                    {
+                        SenhaModel objSenha = new SenhaModel();
+                        objSenha.Id = Convert.ToInt32(httpContext.HttpContext.Session.GetString("Idvendedor"));
+                        objSenha.NovaSenha = BCrypt.Net.BCrypt.HashPassword(senha.NovaSenha);
+
+                        obj.alterarSenha(objSenha);
+                        ViewData["message"] = ("Senha Alterada com Sucesso");
+                    }
+                    else
+                    {
+                        ViewData["message"] = ("Senha Atual Incorreta");
+                    }
+                }
+            }
+            return View();
+        }
+        #endregion
     }
 }
