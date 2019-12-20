@@ -92,15 +92,15 @@ namespace GestaoVendas.Controllers
                     }
                     ven.Foto = ms.ToArray();
                     ven.ContentType = uploadedImage.ContentType;
-
+                    HttpContext.Session.SetString("Foto", Convert.ToBase64String(ven.Foto));
                 }
                 VendedorDAO obj = new VendedorDAO();
                 obj.Editar(ven);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Vendedor");
             }
             ViewBag.Vendedor = ven;
             TempData["error"] = "Limite 1MB";
-            return View();
+            return RedirectToAction("Index","Home");
         }
         #endregion
 
@@ -143,6 +143,20 @@ namespace GestaoVendas.Controllers
                 }
             }
             return View();
+        }
+        #endregion
+
+        #region Logout
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.SetString("Idvendedor", string.Empty);
+            HttpContext.Session.SetString("Nome", string.Empty);
+            HttpContext.Session.SetString("Sexo", string.Empty);
+            HttpContext.Session.SetString("Email", string.Empty);
+            HttpContext.Session.SetString("Nivel", string.Empty);
+            HttpContext.Session.SetString("Foto", string.Empty);
+            return RedirectToAction(nameof(Index));
         }
         #endregion
     }
