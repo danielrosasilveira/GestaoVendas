@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using GestaoVendas.DAL;
@@ -11,6 +12,14 @@ namespace GestaoVendas.Controllers
 {
     public class LoginController : Controller
     {
+        //Via Injeção de dependência irá receber automaticamente
+        //o vendedor que está logado no sistema
+        private IHttpContextAccessor httpContext;
+        public LoginController(IHttpContextAccessor HttpContextAccessor)
+        {
+            httpContext = HttpContextAccessor;
+        }
+
         #region Index
         public IActionResult Index(string? erro)
         {
@@ -22,7 +31,7 @@ namespace GestaoVendas.Controllers
         }
         #endregion
 
-        #region POST - Verificar
+        #region Verificar - POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Verificar(LoginModel login)
@@ -50,5 +59,49 @@ namespace GestaoVendas.Controllers
             return RedirectToAction(nameof(Index), new { @erro = erro });
         }
         #endregion
+
+        #region Perfil - GET
+        public IActionResult Perfil()
+        {
+            int id = Convert.ToInt32(httpContext.HttpContext.Session.GetString("Idvendedor"));
+            VendedorDAO obj = new VendedorDAO();
+            ViewBag.Vendedor = obj.ConsultarID(id);
+            return View();
+        }
+        #endregion
+
+        #region Perfil - POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Perfil(VendedorModel ven, IList<IFormFile> Image)
+        {
+            IFormFile uploadedImage = Image.FirstOrDefault();
+            if (ModelState.IsValid)
+            {
+                if (Image.Count > 0)
+                {
+                    MemoryStream ms = new MemoryStream();
+                    uploadedImage.OpenReadStream().CopyTo(ms);
+                    var size = ms.Length;
+                    if (ms.Length > 1048576)
+                    {
+                        ViewBag.Vendedor = ven;
+                        TempData["error"] = "Limite 1MB";
+                        return View();
+                    }
+                    ven.Foto = ms.ToArray();
+                    ven.ContentType = uploadedImage.ContentType;
+
+                }
+                VendedorDAO obj = new VendedorDAO();
+                obj.Editar(ven);
+                return RedirectToAction(nameof(Index));
+            }
+            ViewBag.Vendedor = ven;
+            TempData["error"] = "Limite 1MB";
+            return View();
+        }
+        #endregion
+
     }
 }

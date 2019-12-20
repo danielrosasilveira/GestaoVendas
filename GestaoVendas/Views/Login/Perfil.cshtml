@@ -1,0 +1,154 @@
+﻿@model VendedorModel
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<h1>Configurar meu perfil!</h1>
+
+<form asp-controller="Login" asp-action="Perfil" enctype="multipart/form-data">
+    @using Microsoft.AspNetCore.Http
+    @inject IHttpContextAccessor HttpContexAccessor
+    <hr />
+    <div class="row">
+
+        <div class="form-group col-md-8" hidden="hidden">
+            <label>ID *</label>
+            <input type="text" class="form-control" asp-for="Idvendedor"
+                   value="@ViewBag.Vendedor.Idvendedor">
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-8">
+            <label>Nome *</label>
+            <input type="text" class="form-control" asp-for="Nome"
+                   value="@ViewBag.Vendedor.Nome">
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-2">
+            <label>Sexo *</label>
+            @{
+                var sexo = ViewBag.Vendedor.Sexo;
+            }
+            <select asp-for="Sexo" class="form-control">
+                <option value="@sexo" selected>@sexo</option>
+                <option value=""></option>
+                <option value="Feminino">Feminino</option>
+                <option value="Masculino">Masculino</option>
+            </select>
+            <span asp-validation-for="Sexo" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-2">
+            <label>Status *</label>
+            @{
+                var status = ViewBag.Vendedor.Status;
+            }
+            <select asp-for="Status" class="form-control" readonly="readonly">
+                <option value="@status" selected>@status</option>
+                <option value=""></option>
+                <option value="Ativo">Ativo</option>
+                <option value="Inativo">Inativo</option>
+            </select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="form-group col-md-8">
+            <label>E-mail *</label>
+            <input type="text" class="form-control" asp-for="Email"
+                   value="@ViewBag.Vendedor.Email" readonly="readonly">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label>Nível *</label>
+            @{
+                var nivel = ViewBag.Vendedor.Nivel;
+            }
+            <select asp-for="Nivel" class="form-control" readonly="readonly">
+                <option value="@nivel">@nivel</option>
+                <option value=""></option>
+                <option value="Operador">Operador</option>
+                <option value="Administrador">Administrador</option>
+            </select>
+            <span asp-validation-for="Nivel" class="text-danger"></span>
+        </div>
+
+        <div class="row" hidden="hidden">
+            <div class="form-group col-md-3">
+                <label>Senha</label>
+                <input asp-for="Senha" type="password" class="form-control"
+                       value="@ViewBag.Vendedor.Senha">
+                <span asp-validation-for="Senha" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label>Confirmar Senha</label>
+                <input asp-for="ConfirmSenha" type="password" class="form-control"
+                       value="@ViewBag.Vendedor.Senha">
+                <span asp-validation-for="ConfirmSenha" class="text-danger"></span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-8">
+            <label>Nova Foto:</label>
+            @{
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon01">
+                        <input type="file" name="Image" id="Image"
+                               accept=".png, .jpg, .jpeg" onchange="readURL(this)">
+                    </span>
+                </div>
+            }
+            @{
+                try
+                {
+                    var erro = TempData["error"].ToString();
+                    <p class="text-xs text-danger">@erro</p>
+
+                }
+                catch
+                {
+                }
+            }
+            <span asp-validation-for="Foto" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <img width="100" id="imgProjImage" src="" />
+    </div>
+
+    <br/>
+    <div id="actions" class="row">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="far fa-edit"></i>
+                </span>
+                <span class="text">Salvar</span>
+            </button>
+            <a class="btn btn-light" asp-controller="Home" asp-action="Index">Voltar</a>
+        </div>
+    </div>
+</form>
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imgProjImage').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+

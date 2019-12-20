@@ -109,13 +109,28 @@ namespace GestaoVendas.DAL
             {
                 MySqlCommand cmd = new MySqlCommand();
 
-                cmd.CommandText = @"update vendedor
+                if (ven.Foto != null)
+                {
+                    cmd.CommandText = @"update vendedor
+                                set nome = @nome,
+                                sexo = @sexo, 
+                                email = @email, 
+                                nivel = @nivel,
+                                status = @status,
+                                foto = @foto,
+                                contenttype = @contenttype
+                                where idvendedor = @id";
+                }
+                else
+                {
+                    cmd.CommandText = @"update vendedor
                                 set nome = @nome,
                                 sexo = @sexo, 
                                 email = @email, 
                                 nivel = @nivel,
                                 status = @status
                                 where idvendedor = @id";
+                }
 
                 cmd.Parameters.AddWithValue("id", ven.Idvendedor);
                 cmd.Parameters.AddWithValue("nome", ven.Nome);
@@ -123,6 +138,8 @@ namespace GestaoVendas.DAL
                 cmd.Parameters.AddWithValue("email", ven.Email);
                 cmd.Parameters.AddWithValue("nivel", ven.Nivel);
                 cmd.Parameters.AddWithValue("status", ven.Status);
+                cmd.Parameters.AddWithValue("foto", ven.Foto);
+                cmd.Parameters.AddWithValue("contenttype", ven.ContentType);
 
                 InstrucaoDAO objDAL = new InstrucaoDAO();
                 objDAL.executarSQL(cmd);

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GestaoVendas.Models
@@ -37,7 +38,10 @@ namespace GestaoVendas.Models
         public string Status { get; set; }
 
         [Column(TypeName = "Imagem")]
+        [FileExtensions(Extensions = "jpg,jpeg,png", ErrorMessage = "JPG, JPEG ou PNG")]        
         public byte[] Foto { get; set; }
+        
+        public string ContentType { get; set; }
     }
 }
 

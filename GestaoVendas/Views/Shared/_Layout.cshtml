@@ -249,11 +249,9 @@
                                     var foto = @HttpContexAccessor.HttpContext.Session.GetString("Foto");
                                     if (foto != string.Empty)
                                     {
-                                        var teste = System.Text.Encoding.UTF8.GetBytes(foto);
-                                        var base64 = Convert.ToBase64String(teste);
-                                        var imgSrc = String.Format("data:image/png;base64,{0}", base64);
-                                        <img class="img-profile rounded-circle"
-                                             src=@imgSrc>
+                                        var base64 = Convert.FromBase64String(foto);
+                                        var imgSrc = String.Format("data:image/png;base64,{0}", foto);
+                                        <img class="img-profile rounded-circle" src="@imgSrc">
                                     }
                                     else
                                     {
@@ -265,7 +263,7 @@
 
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" asp-controller="Login" asp-action="Perfil">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Perfil
                                 </a>
@@ -380,8 +378,7 @@
             if (nome != "") //Usuário Logado
             {
                 var divNome = document.getElementById("nomeUsuarioLogado");
-                divNome.innerHTML = nome;
-                //divNome.style = "color:#ccccc; padding-top: 3px;";
+                divNome.innerHTML = nome;                
             }
             else //Usuário não logado
             {
