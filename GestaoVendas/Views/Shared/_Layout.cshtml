@@ -14,7 +14,8 @@
 
     <!-- Custom styles for this template-->
     <link href="~/css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />    
+    
 </head>
 <body id="page-top" onload="carregaUsuarioLogado()">
     @using Microsoft.AspNetCore.Http
@@ -69,8 +70,8 @@
                             <a class="collapse-item" href="buttons.html">Buttons</a>
                             <a class="collapse-item" href="cards.html">Cards</a>*@
                         <h6 class="collapse-header">Funções:</h6>
-                        <a class="collapse-item" href="buttons.html">Listar</a>
-                        <a class="collapse-item" href="cards.html">Adicionar</a>
+                        <a class="collapse-item" asp-controller="Cliente" asp-action="Index">Listar</a>
+                        <a class="collapse-item" asp-controller="Cliente" asp-action="Create">Adicionar</a>
                     </div>
                 </div>
             </li>
@@ -366,7 +367,7 @@
 
     <!-- Page level custom scripts -->
     <script src="~/js/demo/datatables-demo.js"></script>
-
+    
 
     @RenderSection("Scripts", required: false)
 

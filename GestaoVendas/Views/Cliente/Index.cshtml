@@ -1,0 +1,100 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Clientes</h1>
+    <p class="mb-4">Listagem de Clientes.</p>
+
+    <p>
+        <a class="btn btn-primary btn-icon-split btn-sm" asp-action="Create">
+            <span class="icon text-white-50">
+                <i class="fas fa-plus-circle"></i>
+            </span>
+            <span class="text">Adicionar</span>
+        </a>
+    </p>
+
+    <!-- DataTales -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Clientes</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="sisDataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Cidade</th>
+                            <th>Estado</th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ if (ViewBag.Lista != null)
+                            {
+                                foreach (var item in (List<ClienteModel>)ViewBag.Lista)
+                                {
+                                    <tr>
+                                        <td>@item.Nome</td>
+                                        <td>@item.Email</td>
+                                        <td>@item.Cidade</td>
+                                        <td>@item.UF</td>
+                                        <td>
+                                            <button type="button" onclick="Editar(@item.Idcliente)"
+                                                    class="btn btn-primary btn-circle btn-sm">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </button>
+                                            <button type="button" data-id="@item.Idcliente"
+                                                        class="btn btn-danger btn-circle btn-sm delete">
+                                                    <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+
+<!--Área do Modal-->
+<div id="modal" class="modal fade" role="dialog" />
+
+@section Scripts
+{
+    <script>
+        $('#sisDataTable').dataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Portuguese-Brasil.json"
+            }
+        });
+
+        function Editar(id) {
+            window.location.href = "../../Cliente/Edit/" + id;
+        };
+
+        //Todo o Delete agora direcionado para o MODAL
+        $(function () {
+            $(".delete").click(function () {
+                var id = $(this).attr("data-id");
+                $("#modal").load("Cliente/Delete?id=" + id, function () {                    
+                    $("#modal").modal();
+                    
+                })
+            });
+        })
+    </script>
+}
+
+
+

@@ -1,0 +1,166 @@
+﻿@model ClienteModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Editar Cliente</h1>
+<form asp-controller="Cliente" asp-action="Edit">
+    <hr />
+    <div class="row">
+        <div class="form-group col-md-8" hidden="hidden">
+            <label>ID *</label>
+            <input type="text" class="form-control" asp-for="Idcliente"
+                   value="@ViewBag.Cliente.Idcliente">
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-7">
+            <label>Nome *</label>
+            <input type="text" class="form-control" asp-for="Nome"
+                   value="@ViewBag.Cliente.Nome">
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-5">
+            <label>E-mail *</label>
+            <input type="text" class="form-control" asp-for="Email"
+                   value="@ViewBag.Cliente.Email">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-2">
+            <label>CEP *</label>
+            <input name="cep" type="text" id="cep" class="form-control" asp-for="Cep"
+                   maxlength="8" onblur="pesquisacep(this.value);" 
+                   value="@ViewBag.Cliente.Cep">
+            <span asp-validation-for="Cep" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-7">
+            <label>Endereço</label>
+            <input type="text" class="form-control"
+                   name="logradouro" id="logradouro" asp-for="Logradouro"
+                   value="@ViewBag.Cliente.Logradouro">
+            <span asp-validation-for="Logradouro" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label>Numero</label>
+            <input type="text" class="form-control" asp-for="Numero" 
+                   value="@ViewBag.Cliente.Numero"/>
+            <span asp-validation-for="Numero" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label>Bairro</label>
+            <input name="bairro" id="bairro" type="text" class="form-control" asp-for="Bairro"
+                   value="@ViewBag.Cliente.Bairro">
+            <span asp-validation-for="Bairro" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-2">
+            <label>Complemento</label>
+            <input type="text" class="form-control" asp-for="Complemento"
+                   value="@ViewBag.Cliente.Complemento">
+        </div>
+
+        <div class="form-group col-md-4">
+            <label>Cidade</label>
+            <input name="cidade" id="cidade" type="text" class="form-control" asp-for="Cidade"
+                   value="@ViewBag.Cliente.Cidade">
+            <span asp-validation-for="Cidade" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-2">
+            <label>UF</label>
+            <input name="uf" id="uf" type="text" class="form-control" asp-for="UF"
+                   value="@ViewBag.Cliente.UF">
+            <span asp-validation-for="UF" class="text-danger"></span>
+        </div>
+    </div>
+    <br />
+    <div id="actions" class="row">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-warning btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="far fa-edit"></i>
+                </span>
+                <span class="text">Alterar</span>
+            </button>
+
+            <a class="btn btn-light" asp-action="Index">Voltar</a>
+        </div>
+    </div>
+</form>
+
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        function limpa_formulário_cep() {
+            //Limpa valores do formulário de cep.
+            document.getElementById('logradouro').value = ("");
+            document.getElementById('bairro').value = ("");
+            document.getElementById('cidade').value = ("");
+            document.getElementById('uf').value = ("");
+        }
+
+        function meu_callback(conteudo) {
+            if (!("erro" in conteudo)) {
+                //Atualiza os campos com os valores.
+                document.getElementById('logradouro').value = (conteudo.logradouro);
+                document.getElementById('bairro').value = (conteudo.bairro);
+                document.getElementById('cidade').value = (conteudo.localidade);
+                document.getElementById('uf').value = (conteudo.uf);
+            } //end if.
+            else {
+                //CEP não Encontrado.
+                limpa_formulário_cep();
+                alert("CEP não encontrado.");
+            }
+        }
+
+        function pesquisacep(valor) {
+            //Nova variável "cep" somente com dígitos.
+            var cep = valor.replace(/\D/g, '');
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
+                //Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
+                //Valida o formato do CEP.
+                if (validacep.test(cep)) {
+
+                    //Preenche os campos com "..." enquanto consulta webservice.
+                    document.getElementById('logradouro').value = "...";
+                    document.getElementById('bairro').value = "...";
+                    document.getElementById('cidade').value = "...";
+                    document.getElementById('uf').value = "...";
+                    //Cria um elemento javascript.
+                    var script = document.createElement('script');
+
+                    //Sincroniza com o callback.
+                    script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+
+                    //Insere script no documento e carrega o conteúdo.
+                    document.body.appendChild(script);
+
+                } //end if.
+                else {
+                    //cep é inválido.
+                    limpa_formulário_cep();
+                    alert("Formato de CEP inválido.");
+                }
+            } //end if.
+            else {
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
+            }
+        };
+
+    </script>
+}
