@@ -1,0 +1,104 @@
+﻿@model ProdutoModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Inserir Produto</h1>
+
+<form asp-controller="Produto" asp-action="Create" enctype="multipart/form-data">
+    <hr />
+    <div class="row">
+        <div class="form-group col-md-8">
+            <label>Nome *</label>
+            <input type="text" class="form-control" asp-for="Nome">
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label>Quantidade *</label>
+            <input type="text" class="form-control" asp-for="Quantidade">
+            <span asp-validation-for="Quantidade" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label>Preço Unitário *</label>
+            <input type="text" class="form-control" asp-for="Preco_unitario">
+            <span asp-validation-for="Preco_unitario" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-8">
+            <label>Descrição</label>
+            <textarea asp-for="Descricao" type="text" 
+                      rows="3" style="resize: none" class="form-control"></textarea>
+            <span asp-validation-for="Descricao" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-8">
+            <label>Foto:</label>
+            @{
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon01">
+                        <input type="file" name="Image" id="Image"
+                               accept=".png, .jpg, .jpeg" onchange="readURL(this)">
+                    </span>
+                </div>
+            }
+            @{
+                try
+                {
+                    var erro = TempData["error"].ToString();
+                    <p class="text-xs text-danger">@erro</p>
+
+                }
+                catch
+                {
+                }
+            }
+            <span asp-validation-for="Foto" class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="row">
+            <img width="100" id="imgProjImage" src="" />
+        </div>
+    </div>
+
+    <div id="actions" class="row">
+        <div class="col-md-12">
+
+            <button type="submit" class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="far fa-save"></i>
+                </span>
+                <span class="text">Salvar</span>
+            </button>
+
+            <a class="btn btn-light" asp-action="Index">Voltar</a>
+        </div>
+    </div>
+
+</form>
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imgProjImage').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+
+

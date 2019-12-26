@@ -4,7 +4,7 @@ namespace GestaoVendas.Models
 {
     public class ProdutoModel
     {
-        public string Idproduto { get; set; }
+        public int Idproduto { get; set; }
 
         [Required(ErrorMessage = "Informe o Nome do Produto")]
         public string Nome { get; set; }
@@ -22,3 +22,4 @@ namespace GestaoVendas.Models
         public string ContentType { get; set; }
     }
 }
+

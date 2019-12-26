@@ -171,7 +171,6 @@ namespace GestaoVendas.DAL
             }
         }
         #endregion
-
     }
 }
 
