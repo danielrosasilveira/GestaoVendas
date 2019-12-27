@@ -1,0 +1,167 @@
+﻿@model VendaModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Inserir Venda</h1>
+<form asp-controller="Venda" asp-action="Create">
+    <hr />
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label>Cliente: *</label>
+            <select asp-for="Cliente" class="form-control">
+                @{
+                    foreach (var item in (List<ClienteModel>)ViewBag.ListaClientes)
+                    {
+                        <option value="@item.Idcliente">@item.Nome</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-7">
+            <label>Produto: *</label>
+            <select id="sltProduto" class="form-control">
+                @{
+                    foreach (var item in (List<ProdutoModel>)ViewBag.ListaProdutos)
+                    {
+                        <option value="@item.Idproduto">@item.Nome | @item.Preco_unitario</option>
+                    }
+                }
+            </select>
+        </div>
+
+
+        <div class="form-group col-md-2">
+            <label>Quantidade *</label>
+            <input type="text" class="form-control" id="txtQuantidade" value="1">
+        </div>
+
+        <div class="form-group col-md-2">
+            <label>&nbsp</label>
+            <br />
+            <input type="button" class="btn btn-primary" onclick="AdicionarProduto()" value="Adicionar">
+        </div>
+    </div>
+
+    <table class="table table-sm table-striped table-hover col-md-12">
+        <thead>
+        <td>ID</td>
+        <td>Nome</td>
+        <td>Quantidade</td>
+        <td>Preço Unitário</td>
+        <td>Preço Total</td>
+        </thead>
+        <tbody id="listaProdutos">
+        </tbody>
+    </table>
+
+    <br />
+    <div style="float:left; font-size:22px;">Total: R$</div>
+    <div style="float:left; font-size:22px; margin-left:5px" id="divTotal">0,00</div>
+    <br />
+
+    <!--ÁREA JSON-->
+    <textarea asp-for="ListaProdutosJSON" id="ListaProdutosJSON" hidden="hidden"></textarea>    
+    <!--FIM ÁREA JSON-->
+    <!--Total Geral para Envio de Valor-->
+    <input type="hidden" id="TotalGeral" asp-for="Total" />
+    <!--FIM DE TOTAL GERAL-->
+
+    <button type="submit" class="btn btn-block btn-success">Registrar</button>
+</form>
+
+<!--ÁREA DO MODAL-->
+@{
+    if (ViewData["message"] != null)
+    {
+        <div id="modal" class="modal fade" role="dialog" />
+    }
+}
+<!--FIM DA ÁREA DO MODAL-->
+
+@section Scripts
+{
+    <script>
+        var Itens = new Object();
+        Itens.Produtos = new Array();
+        var CodigoProduto = document.getElementById("sltProduto");
+        var qtdProduto = document.getElementById("txtQuantidade");
+        var listaProdutos = document.getElementById("listaProdutos");
+        
+        function AdicionarProduto() {
+
+            var DescricaoPreco = CodigoProduto.options[CodigoProduto.selectedIndex].text;
+            var arrayDescricaoPreco = DescricaoPreco.split('|');
+
+            var totalProduto = arrayDescricaoPreco[1].replace(",", ".") * qtdProduto.value;
+
+            // Ajustando casas decimais
+            totalProduto = totalProduto.toFixed(2);
+            totalProduto = totalProduto.replace(".", ",");
+
+
+            var produto = "<tr>" +
+                "<td>" + CodigoProduto.value + "</td>" +
+                "<td>" + arrayDescricaoPreco[0] + "</td>" +
+                "<td>" + qtdProduto.value + "</td>" +
+                "<td>R$ " + arrayDescricaoPreco[1] + "</td>" +
+                "<td>R$ " + totalProduto + "</td>" +
+                "</tr>"
+
+            listaProdutos.innerHTML += produto;
+
+            //TOTAL VENDA
+            var totalVenda = document.getElementById("divTotal");
+            var adicionar = parseFloat(totalProduto);                  
+            var total = parseFloat(totalVenda.innerText.replace(",", "."));            
+            var totalGeral = adicionar + total;
+            totalGeral = totalGeral.toFixed(2);
+            totalGeral = totalGeral.replace(".", ",");
+            totalVenda.innerHTML = totalGeral;                
+            
+            //Total Geral para ASP-FOR
+            var TotalGeralASPFOR = document.getElementById("TotalGeral");
+            TotalGeralASPFOR.value = totalGeral.toLocaleString("pt-BR", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+            //FIM Total Geral para ASP-FOR
+
+            // JSON PRODUTOS DA LISTA DE COMPRAS
+            Itens.Produtos.push({
+                "Fk_idproduto": CodigoProduto.value,
+                //"DescricaoProduto": arrayDescricaoPreco[0],
+                "Qtd": qtdProduto.value,
+                "Valor": arrayDescricaoPreco[1],
+                "Total": totalProduto
+            });
+            var ListaProdutosJson = document.getElementById("ListaProdutosJSON");
+            ListaProdutosJson.innerHTML = JSON.stringify(Itens.Produtos);
+            //FIM JSON
+
+        }
+
+        //INICIO MODAL
+        //MODAL
+        $(function () {
+            $("#modal").load("Sucesso", function () {                
+                limparListaProdutosJSON();
+                $("#modal").modal("show");
+            })
+        });
+
+        //Desaparecer Modal após 3 segundos
+        setTimeout(function () {
+            $('#modal').modal('hide');
+        }, 3000);
+        //FIM MODAL
+
+        function limparListaProdutosJSON() {
+            document.getElementById("ListaProdutosJSON").innerHTML = "";
+        };
+
+    </script>
+}

@@ -1,0 +1,52 @@
+﻿@model VendaModel
+
+@{
+    Layout = null;
+}
+
+<form asp-controller="Venda" asp-action="Delete">
+    <div>
+        <div class="modal-dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Apagar Venda?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group" hidden="hidden">
+                            <label>ID:</label>
+                            <input asp-for="Idvenda" type="Text" class="form-control"
+                                   value="@ViewBag.Venda.Idvenda" readonly="readonly" />
+                        </div>
+                        <div class="form-group">
+                            <label>Data:</label>
+                            <input asp-for="Data" type="Text" class="form-control"
+                                   value="@ViewBag.Venda.Data" readonly="readonly" />
+                        </div>
+                        <div class="form-group">
+                            <label>Total:</label>
+                            <input asp-for="Total" type="Text" class="form-control"
+                                   value="@ViewBag.Venda.Total" readonly="readonly" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-actions no-color">
+                                <button type="submit" class="btn btn-danger">Sim</button>
+                                <button type="button" class="btn btn-primary"
+                                        data-dismiss="modal">
+                                    Não
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+    </div>
+</form>
+
+
+

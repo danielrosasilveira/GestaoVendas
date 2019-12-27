@@ -11,7 +11,7 @@ namespace GestaoVendas.DAL
         private static string Password = "firstcursos2020";
         private static string connectionString = $@"Server={Server};Database={Database};
                                                     Uid={User};Pwd={Password};SslMode=none;
-                                                    Charset=utf8;";
+                                                    Charset=utf8;";//Allow User Variables=True;
         #endregion
 
         //Instalar biblioteca MySql.Data -> via Nuget
