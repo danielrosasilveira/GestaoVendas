@@ -33,7 +33,6 @@
             </select>
         </div>
 
-
         <div class="form-group col-md-2">
             <label>Quantidade *</label>
             <input type="text" class="form-control" id="txtQuantidade" value="1">
@@ -102,7 +101,6 @@
             totalProduto = totalProduto.toFixed(2);
             totalProduto = totalProduto.replace(".", ",");
 
-
             var produto = "<tr>" +
                 "<td>" + CodigoProduto.value + "</td>" +
                 "<td>" + arrayDescricaoPreco[0] + "</td>" +
@@ -132,8 +130,7 @@
 
             // JSON PRODUTOS DA LISTA DE COMPRAS
             Itens.Produtos.push({
-                "Fk_idproduto": CodigoProduto.value,
-                //"DescricaoProduto": arrayDescricaoPreco[0],
+                "Fk_idproduto": CodigoProduto.value,                
                 "Qtd": qtdProduto.value,
                 "Valor": arrayDescricaoPreco[1],
                 "Total": totalProduto
@@ -141,7 +138,6 @@
             var ListaProdutosJson = document.getElementById("ListaProdutosJSON");
             ListaProdutosJson.innerHTML = JSON.stringify(Itens.Produtos);
             //FIM JSON
-
         }
 
         //INICIO MODAL

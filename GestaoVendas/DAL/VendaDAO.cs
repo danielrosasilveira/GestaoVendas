@@ -9,13 +9,13 @@ namespace GestaoVendas.DAL
 {
     public class VendaDAO
     {
-
         #region listarVendas
         public List<VendaModel> listarVendas()
         {
             MySqlCommand cmd = new MySqlCommand();
 
-            cmd.CommandText = @"select C.nome as cliente, V.idvenda, V.data, V.total, Ve.nome as vendedor
+            cmd.CommandText = @"select C.nome as cliente, V.idvenda, V.data, 
+                            V.total, Ve.nome as vendedor
                             from cliente C
                             inner join venda V
                             on C.idcliente = V.fk_idcliente
@@ -79,7 +79,8 @@ namespace GestaoVendas.DAL
                                 set quantidade = quantidade - @qt_produto
                                 where idproduto = @prod_id";
 
-            List<Itens_VendaModel> lstProdutos = JsonConvert.DeserializeObject<List<Itens_VendaModel>>(ven.ListaProdutosJSON);
+            List<Itens_VendaModel> lstProdutos = 
+                JsonConvert.DeserializeObject<List<Itens_VendaModel>>(ven.ListaProdutosJSON);
             foreach (var item in lstProdutos)
             {
                 //Inserir Itens da Venda

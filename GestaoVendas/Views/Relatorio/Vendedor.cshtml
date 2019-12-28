@@ -1,0 +1,18 @@
+﻿@model RelatorioVendedorModel
+<h1>Vendas por Período</h1>
+
+<form asp-controller="Relatorio" asp-action="VendedorRel">
+    <div class="form-group">
+        <select asp-for="Vendedor" class="form-control">
+            @{
+                foreach (var item in (List<VendedorModel>)ViewBag.ListaVendedores)
+                {
+                    <option value="@item.Idvendedor">@item.Nome</option>
+                }
+            }
+        </select>
+    </div>
+    
+    <button type="submit" class="btn btn-block btn-success">Pesquisar</button>
+</form>
+

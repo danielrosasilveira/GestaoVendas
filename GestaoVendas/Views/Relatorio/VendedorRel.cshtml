@@ -1,0 +1,47 @@
+﻿<div class="form-group col-md-12">
+    <h1 class="h5 mb-2 text-gray-800">
+        <label>Vendedor</label>
+        @{
+            if (ViewBag.Resultado != null)
+            {
+                foreach (var item in (List<VendaModel>)ViewBag.Resultado)
+                {
+                    <h1><label>@item.Vendedor</label></h1>
+                    break;
+                }
+            }
+            else
+            {
+                <h1><label>Nenhuma Venda Registrada</label></h1>
+            }
+        }
+    </h1>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID Venda</th>
+                <th>Data</th>
+                <th>Total</th>
+                <th>Cliente</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (ViewBag.Resultado != null)
+                {
+                    foreach (var item in (List<VendaModel>)ViewBag.Resultado)
+                    {
+                        <tr>
+                            <td>@item.Idvenda</td>
+                            <td>@item.Data</td>
+                            <td>R$ @item.Total</td>
+                            <td>@item.Cliente</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
