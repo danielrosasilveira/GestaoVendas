@@ -50,8 +50,8 @@ namespace GestaoVendas.Controllers
                         HttpContext.Session.SetString("Email", item.Email);
                         HttpContext.Session.SetString("Nivel", item.Nivel);
                         HttpContext.Session.SetString("Foto", (item.Foto != null ?
-                            Convert.ToBase64String(item.Foto) : string.Empty));
-                        return RedirectToAction("Index", "Cliente");
+                            Convert.ToBase64String(item.Foto) : string.Empty));                        
+                        return RedirectToAction("Index", "Dashboard");
                     }
                 }
             }

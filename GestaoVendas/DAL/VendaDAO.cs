@@ -55,7 +55,7 @@ namespace GestaoVendas.DAL
             cmd.CommandText = @"insert into venda(data, total, fk_idvendedor, fk_idcliente)
                             values (@data, @total, @fk_idvendedor, @fk_idcliente)";
 
-            cmd.Parameters.AddWithValue("data", DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss"));
+            cmd.Parameters.AddWithValue("data", DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss"));          
             cmd.Parameters.AddWithValue("total", ven.Total);
             cmd.Parameters.AddWithValue("fk_idvendedor", ven.Vendedor);
             cmd.Parameters.AddWithValue("fk_idcliente", ven.Cliente);

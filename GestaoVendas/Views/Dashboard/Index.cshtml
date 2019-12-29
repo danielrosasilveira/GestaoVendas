@@ -1,0 +1,146 @@
+﻿<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
+<script>
+    window.chartColors = {
+        blue: 'rgb(54, 162, 235)'        
+    };
+</script>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Faturamento</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.Cards.Faturamento</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Produtos</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.Cards.Produto</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-box-open fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Clientes</div>
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">@ViewBag.Cards.Cliente</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Requests Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Vendedores</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.Cards.Vendedor</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-comments-dollar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Content Row -->
+
+    <div class="row" style="background-color:white">
+        <canvas id="canvas"></canvas>
+        <script>
+            var config = {
+                type: 'line',
+                data: {
+                    labels: [@Html.Raw(ViewBag.Labels)],
+                    datasets: [{
+                        label: 'Vendas',
+                        backgroundColor: window.chartColors.blue,
+                        //backgroundColor: 'rgb(54, 162, 235)',
+                        borderColor: window.chartColors.blue,
+                        //borderColor: 'rgb(54, 162, 235)',
+                        data: [@Html.Raw(ViewBag.Valores)],
+                        fill: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+					display: true,
+					text: 'Volume de Vendas'
+				},
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Dia'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Valor'
+                            }
+                        }]
+                    }
+                }
+            };
+
+            window.onload = function () {
+                var ctx = document.getElementById('canvas').getContext('2d');
+                window.myLine = new Chart(ctx, config);
+            };
+        </script>
+    </div>
+</div>
